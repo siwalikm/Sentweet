@@ -6,13 +6,18 @@
   <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="css/main.css">
-
+<script>
+  // console.log(config.consumer_key);
+</script>
 </head>
 
 <body>
 
   <div class="container">
-    hello
+    <form action="/myaction" method="post">
+           <input type="text" id="name" name="name" placeholder="Enter Name" />
+           <input type="submit" value="Search user" />
+   </form>
   </div>
 </body>
 

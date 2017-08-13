@@ -1,14 +1,52 @@
 const http = require('http');
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
+var   express = require('express');
+var   app = express();
+var   server = require('http').createServer(app);
+var   bodyParser = require('body-parser');
+var   config = require('./config');
+var Twit = require('twit');
+ 
+var T = new Twit({
+  consumer_key:         config.key.consumer_key,
+  consumer_secret:      config.key.consumer_secret,
+  access_token:         config.key.access_token,
+  access_token_secret:  config.key.access_token_secret
+});
 
-const hostname = '127.0.0.1';
-const port = 3000;
+// T.post('statuses/update', { status: 'Test Status 🚀 checkout github.com/siwalikm/sentweet' }, function(err, data, response) {
+//   console.log(data)
+// })
+
+var stream = T.stream('statuses/filter', { screen_name: 'siwalik' })
+ 
+stream.on('tweet', function (tweet) {
+  console.log(tweet)
+})
+
+var params = {screen_name: 'siwalik', count: 150, tweet_mode: 'extended'};
+T.get('statuses/user_timeline', params, function(err, data, response) {
+  console.log(data)
+});
+
+// T.get('search/tweets', { q: 'siwalik', count: 5 }, function(err, data, response) {
+//   console.log(data)
+// })
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+
+const hostname = 'localhost';
+const port = 8055;
 
 app.use('/', express.static('html'));
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + '/html/start.html');
+  console.log(config.key);
+  res.sendFile(__dirname + '/html/index.html');
+});
+app.post('/myaction', function (req, res) {
+  res.send('You sent the name "' + req.body.name + '".');
 });
 
 server.listen(port, hostname, () => {
