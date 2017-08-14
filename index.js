@@ -4,7 +4,7 @@ var   app = express();
 var   server = require('http').createServer(app);
 var   bodyParser = require('body-parser');
 var   config = require('./config');
-var Twit = require('twit');
+var   Twit = require('twit');
  
 var T = new Twit({
   consumer_key:         config.key.consumer_key,
@@ -17,16 +17,12 @@ var T = new Twit({
 //   console.log(data)
 // })
 
-var stream = T.stream('statuses/filter', { screen_name: 'siwalik' })
+
+var stream = T.stream('statuses/filter', { follow: 4708084272 })
  
 stream.on('tweet', function (tweet) {
-  console.log(tweet)
+  console.log(tweet.text)
 })
-
-var params = {screen_name: 'siwalik', count: 150, tweet_mode: 'extended'};
-T.get('statuses/user_timeline', params, function(err, data, response) {
-  console.log(data)
-});
 
 // T.get('search/tweets', { q: 'siwalik', count: 5 }, function(err, data, response) {
 //   console.log(data)
