@@ -18,11 +18,16 @@ var T = new Twit({
 // })
 
 
-var stream = T.stream('statuses/filter', { follow: 4708084272 })
- 
-stream.on('tweet', function (tweet) {
-  console.log(tweet.text)
-})
+// var stream = T.stream('statuses/filter', { follow: 4708084272 });
+// stream.on('tweet', function (tweet) {
+//   console.log(tweet.text);
+// });
+
+  var stream = T.stream('statuses/filter', { track: 'sentweet' });
+  stream.on('tweet', function (tweet) {
+    process.stdout.write(tweet.id);
+  });
+
 
 // T.get('search/tweets', { q: 'siwalik', count: 5 }, function(err, data, response) {
 //   console.log(data)
